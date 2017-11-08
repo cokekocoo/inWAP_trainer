@@ -13,12 +13,16 @@ public class LoggerEducator {
 	private static ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     private static StreamHandler streamHandler;
 
+    public LoggerEducator() {
+
+    }
+
 	public void loggerMain() {
 		setUp();
 		outputLogger();
 	}
 
-	private void setUp() {
+	public void setUp() {
 		logger = Logger.getLogger("LoggerEducator");
 		try {
             FileHandler fileHandler = new FileHandler("C:\\COMPANY_UPDATER\\test\\loggerDcucation.log");
