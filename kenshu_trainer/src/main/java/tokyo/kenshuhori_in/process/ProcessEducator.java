@@ -28,6 +28,11 @@ public class ProcessEducator {
 		}
 	}
 
+	public void getMyProcess() {
+		String processId = java.lang.management.ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
+    	System.out.println("processId : " + processId);
+	}
+
 	private static class CommandGetter {
 		public static String getWmicCmdBySeviceName(String serviceName) {
 	    	return "wmic process where (name = '" + serviceName + "') get processid";

@@ -1,13 +1,10 @@
 package tokyo.kenshuhori_in;
 
-import tokyo.kenshuhori_in.threads.MultiThreadTester;
+import tokyo.kenshuhori_in.threads.MultiRunnerTester;
 
 public class App {
     public static void main( String[] args ) {
-//    	String processId = java.lang.management.ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
-//    	System.out.println("processId : " + processId);
-//        ProcessEducator pe = new ProcessEducator();
-//        pe.detectIfProcessStopped();
-    	new MultiThreadTester().exec();
+
+    	new MultiRunnerTester().exec();
     }
 }
