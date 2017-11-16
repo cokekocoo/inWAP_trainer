@@ -1,0 +1,20 @@
+[2017-09-13 11:04:52] [info]  [10808] Commons Daemon procrun (1.0.15.0 64-bit) started
+[2017-09-13 11:04:52] [info]  [10808] Service CpnyUpdaterExeService name COMPANY Updater Executor Service
+[2017-09-13 11:04:52] [info]  [10808] Service 'CpnyUpdaterExeService' installed
+[2017-09-13 11:04:52] [info]  [10808] Commons Daemon procrun finished
+[2017-09-13 11:20:32] [info]  [ 8708] Commons Daemon procrun (1.0.15.0 64-bit) started
+[2017-09-13 11:20:32] [info]  [ 8708] Service CpnyUpdaterExeService name COMPANY Updater Executor Service
+[2017-09-13 11:20:32] [info]  [ 8708] Service 'CpnyUpdaterExeService' installed
+[2017-09-13 11:20:32] [info]  [ 8708] Commons Daemon procrun finished
+[2017-09-13 11:33:33] [info]  [10432] Commons Daemon procrun (1.0.15.0 64-bit) started
+[2017-09-13 11:33:33] [info]  [10432] Service CpnyUpdaterExeService name COMPANY Updater Executor Service
+[2017-09-13 11:33:33] [info]  [10432] Service 'CpnyUpdaterExeService' installed
+[2017-09-13 11:33:33] [info]  [10432] Commons Daemon procrun finished
+[2017-09-13 11:35:21] [info]  [ 6500] Commons Daemon procrun (1.0.15.0 64-bit) started
+[2017-09-13 11:35:21] [info]  [ 6500] Running 'CpnyUpdaterExeService' Service...
+[2017-09-13 11:35:21] [info]  [10008] Starting service...
+[2017-09-13 11:35:23] [info]  [10008] Service started in 1235 ms.
+[2017-09-14 11:17:20] [info]  [ 9052] Console SHUTDOWN event signaled
+[2017-09-14 11:17:20] [info]  [ 9052] Stopping service...
+[2017-09-14 11:17:22] [error] [10872] Failed to set service status
+[2017-09-14 11:17:22] [error] [10872] ÉnÉìÉhÉãÇ™ñ≥å¯Ç≈Ç∑ÅB

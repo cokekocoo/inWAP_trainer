@@ -1,0 +1,13 @@
+[2017-09-12 18:04:31] [info]  [ 2248] Commons Daemon procrun (1.0.15.0 64-bit) started
+[2017-09-12 18:04:31] [info]  [ 2248] Service CpnyUpdaterExeService name COMPANY Updater Executor Service
+[2017-09-12 18:04:31] [info]  [ 2248] Service 'CpnyUpdaterExeService' installed
+[2017-09-12 18:04:31] [info]  [ 2248] Commons Daemon procrun finished
+[2017-09-12 18:05:53] [info]  [ 5324] Commons Daemon procrun (1.0.15.0 64-bit) started
+[2017-09-12 18:05:53] [info]  [ 5324] Running 'CpnyUpdaterExeService' Service...
+[2017-09-12 18:05:53] [info]  [ 6524] Starting service...
+[2017-09-12 18:05:53] [error] [ 6524] Failed creating java C:\Users\works\Desktop\趣味ファイル\CompanyUpdater\ServerSetup_CU120_01\COMPANY_UPDATER\executor\bin\server\jvm.dll
+[2017-09-12 18:05:53] [error] [ 6524] 指定されたパスが見つかりません。
+[2017-09-12 18:05:53] [error] [ 6524] ServiceStart returned 1
+[2017-09-12 18:05:53] [error] [ 6524] 指定されたパスが見つかりません。
+[2017-09-12 18:05:53] [info]  [ 5324] Run service finished.
+[2017-09-12 18:05:53] [info]  [ 5324] Commons Daemon procrun finished
