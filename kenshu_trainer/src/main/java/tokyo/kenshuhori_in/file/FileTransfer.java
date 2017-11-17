@@ -19,46 +19,82 @@ public class FileTransfer {
 	private Path fromDir = null;
 	private Path toDir = null;
 	private String sep = FileSystems.getDefault().getSeparator();
-	private static final String CONTROLLER = "Controller";
-	private static final String EXECUTOR = "Executor";
+	public static final String CONTROLLER = "Controller";
+	public static final String EXECUTOR = "Executor";
 	private byte[] buffer = new byte[1024];
     private int len;
 
-    public void downloadLogs(Path cLogsDir, Path eLogsDir, Path dbDir) throws IOException {
-    	Path newDir = Paths.get("." + sep + "tempDir");
-		setDir(cLogsDir, newDir);
-    	getTargetFile(cLogsDir, FileTransfer.CONTROLLER);
-    	setDir(eLogsDir, newDir);
-    	getTargetFile(eLogsDir, FileTransfer.EXECUTOR);
-    	setDir(dbDir, newDir);
-    	getTargetFile(dbDir);
-    	startZip(toDir);
+    public FileTransfer() {
+    	toDir = Paths.get("." + sep + "tempDir");
+    }
+
+    /**
+     * targetDir以下のファイルをフォルダへまとめます。
+     * @param targetDir
+     * @param serverType
+     */
+    public void collectLogs(Path targetDir, String... serverType) {
+		setFromDir(targetDir);
+    	getTargetFile(targetDir, serverType);
 	}
+
+    /**
+     * logを集めたフォルダをzipにまとめます。
+     * logを集めたフォルダは削除します。
+     * @throws IOException
+     */
+    public void createZip() throws IOException {
+    	startZip(toDir);
+		deleteDir(toDir);
+    }
 
 //	private void showFileList() {
 //		Stream<File> stream = Arrays.stream(fromDir.toFile().listFiles());
 //		stream.forEach(file -> System.out.println(file));
 //	}
-//	private void deleteDir() {
-//		try {
-//			Files.deleteIfExists(toDir);
-//		} catch (IOException e) {
-//			System.out.println("error has occured at deleteDir! " + e);
-//		}
-//	}
 
     /**
-     * コピー元フォルダとコピー先フォルダを登録します
-     * @param fromDir ファイルOKフォルダOK
-     * @param toDir ファイルNGフォルダOK
+     * pathのディレクトリ以下を全て削除します。
+     * @param path
      */
-	private void setDir(Path fromDir, Path toDir) {
+	private void deleteDir(Path path) {
+		File targetFile = path.toFile();
+		if(targetFile.exists()) {
+			if(targetFile.isFile()) {
+				if(targetFile.delete()) {
+					System.out.println("ファイル削除");
+				}
+			} else {
+				File[] files = targetFile.listFiles();
+				if(files == null) {
+					System.out.println("配下にファイルが存在しない");
+				}
+				for (File file : files) {
+					if(file.exists() == false) {
+						continue;
+					} else {
+						deleteDir(file.toPath());
+						file.delete();
+						System.out.println("ファイル削除2");
+					}
+				}
+			}
+		} else {
+			System.out.println("ファイル存在しない");
+		}
+		targetFile.delete();
+	}
+
+    /**
+     * コピー元フォルダを登録します
+     * @param fromDir ファイルOKフォルダOK
+     */
+	private void setFromDir(Path fromDir) {
 		if (fromDir.toFile().isDirectory()) {
 			this.fromDir = fromDir;
 		} else {
-			this.fromDir = fromDir.getParent();
+			this.fromDir = fromDir.getParent().resolve("\\");
 		}
-		this.toDir = toDir;
 	}
 
 	/**
@@ -92,20 +128,20 @@ public class FileTransfer {
 	}
 
 	private Path convertToDir(File file, String... serverType) throws IOException {
-		String path = file.getAbsolutePath();
-		String convertedPath;
-		if(serverType.length == 0) {
-			convertedPath = path.replace(fromDir.toString(), toDir.toString());
+		String path = file.toPath().toString();
+		Path convPath;
+		if (serverType.length == 0) {
+			convPath = toDir.resolve(path);
 		} else {
-			convertedPath = path.replace(fromDir.toString(), toDir.toString() + sep + serverType[0]);
+			convPath = toDir.resolve(serverType[0]).resolve(path);
 		}
-		String[] str = convertedPath.split("\\\\|\\/");
+		String[] str = convPath.toString().split("\\\\|\\/");
 		Path basePath = Paths.get(str[0]);
-		for(int i = 1; i < str.length - 1; i++) {
+		for(int i = 1; i < str.length; i++) {
 			basePath = basePath.resolve(str[i]);
 			Files.createDirectories(basePath);
 		}
-		return Paths.get(convertedPath);
+		return convPath;
 	}
 
 	/**
@@ -115,7 +151,7 @@ public class FileTransfer {
 	 */
 	public void startZip(Path zipPath) throws IOException {
     	try {
-			ZipOutputStream out = new ZipOutputStream(new FileOutputStream("out.zip"));
+			ZipOutputStream out = new ZipOutputStream(new FileOutputStream("WebContent\\out.zip"));
 			File[] files = zipPath.toFile().listFiles();
 			createZip(files, out);
 			out.close();
