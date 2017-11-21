@@ -3,7 +3,6 @@ package tokyo.kenshuhori_in.file;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -16,58 +15,62 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class FileTransfer {
-	private Path fromDir = null;
-	private Path toDir = null;
 	private String sep = FileSystems.getDefault().getSeparator();
+	private Path tempDir = Paths.get("." + sep + "tempDir");
+	private Path zipDir = Paths.get("WebContent\\CUlogs.zip");
 	public static final String CONTROLLER = "Controller";
 	public static final String EXECUTOR = "Executor";
 	private byte[] buffer = new byte[1024];
     private int len;
 
-    public FileTransfer() {
-    	toDir = Paths.get("." + sep + "tempDir");
-    }
-
     /**
-     * targetDir以下のファイルをフォルダへまとめます。
+     * targetDir以下をtempDirフォルダへまとめます。
+     * ※注意※排他制御は行っていません。
+     * 複数ユーザーが同時に操作する場合を考慮する場合、
+     * 排他制御の機能を追加する必要があります。
+     *
      * @param targetDir
      * @param serverType
+     * @throws IOException
      */
-    public void collectLogs(Path targetDir, String... serverType) {
-		setFromDir(targetDir);
-    	getTargetFile(targetDir, serverType);
+    public void collectLogs(Path targetDir, String serverType) throws IOException {
+    	try {
+    		getTargetFile(targetDir, serverType);
+    	} catch (Exception e) {
+    		System.out.println("failed to collect logs to tempDir.");
+    		System.out.println("targetDir : " + targetDir.toFile().getAbsolutePath());
+    		throw e;
+    	}
 	}
 
     /**
-     * logを集めたフォルダをzipにまとめます。
-     * logを集めたフォルダは削除します。
+     * tempDirフォルダをzipにまとめ、WebContent配下へCUlogs.zipとして配置します。
+     * その後、tempDirフォルダを削除されます。
      * @throws IOException
      */
-    public void createZip() throws IOException {
-    	startZip(toDir);
-		deleteDir(toDir);
+    public void createZip() throws IOException{
+    	try {
+			startZip(tempDir);
+			deleteDir(tempDir);
+		} catch (IOException e) {
+			System.out.println("failed to create CUlogs.zip.");
+			throw e;
+		}
     }
-
-//	private void showFileList() {
-//		Stream<File> stream = Arrays.stream(fromDir.toFile().listFiles());
-//		stream.forEach(file -> System.out.println(file));
-//	}
 
     /**
      * pathのディレクトリ以下を全て削除します。
      * @param path
      */
-	private void deleteDir(Path path) {
+	public void deleteDir(Path path) {
 		File targetFile = path.toFile();
 		if(targetFile.exists()) {
 			if(targetFile.isFile()) {
-				if(targetFile.delete()) {
-					System.out.println("ファイル削除");
-				}
+				targetFile.delete();
 			} else {
 				File[] files = targetFile.listFiles();
 				if(files == null) {
-					System.out.println("配下にファイルが存在しない");
+					System.out.println("fail does not exits under " + targetFile.getAbsolutePath());
 				}
 				for (File file : files) {
 					if(file.exists() == false) {
@@ -75,71 +78,62 @@ public class FileTransfer {
 					} else {
 						deleteDir(file.toPath());
 						file.delete();
-						System.out.println("ファイル削除2");
 					}
 				}
 			}
 		} else {
-			System.out.println("ファイル存在しない");
+			System.out.println(targetFile.getAbsolutePath() + " does not exits");
 		}
 		targetFile.delete();
-	}
-
-    /**
-     * コピー元フォルダを登録します
-     * @param fromDir ファイルOKフォルダOK
-     */
-	private void setFromDir(Path fromDir) {
-		if (fromDir.toFile().isDirectory()) {
-			this.fromDir = fromDir;
-		} else {
-			this.fromDir = fromDir.getParent().resolve("\\");
-		}
 	}
 
 	/**
 	 * path以下のディレクトリをnewDir配下へコピーします
 	 * @param files
 	 * @param serverType
+	 * @throws IOException
 	 */
-	public void getTargetFile(Path path, String... serverType) {
+	private void getTargetFile(Path path, String serverType) throws IOException {
 		if (path.toFile().isDirectory()) {
 			File[] files = path.toFile().listFiles();
-			Arrays.stream(files).forEach(file -> copyAllToOutDir(file, serverType));
+			Arrays.stream(files).forEach(file -> {
+				try {
+					copyAllToOutDir(file, serverType);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			});
 		} else {
 			copyAllToOutDir(path.toFile(), serverType);
 		}
 	}
 
-	private void copyAllToOutDir(File file, String... serverType) {
-		try {
-			if(file.isDirectory()) {
-				File[] files = file.listFiles();
-				if(files.length != 0) {
-					getTargetFile(file.toPath(), serverType);
-				}
-				return;
+	private void copyAllToOutDir(File file, String serverType) throws IOException {
+		if(file.isDirectory()) {
+			File[] files = file.listFiles();
+			if(files.length != 0) {
+				getTargetFile(file.toPath(), serverType);
 			}
-			Path outDir = convertToDir(file, serverType);
-			Files.copy(file.toPath(), outDir, StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException e) {
-			System.out.println("error has occured at copyAllToOutDir! " + e);
+			return;
 		}
+		Path outDir = convertToDir(file, serverType);
+		Files.copy(file.toPath(), outDir, StandardCopyOption.REPLACE_EXISTING);
 	}
 
-	private Path convertToDir(File file, String... serverType) throws IOException {
+	private Path convertToDir(File file, String serverType) throws IOException {
 		String path = file.toPath().toString();
 		Path convPath;
-		if (serverType.length == 0) {
-			convPath = toDir.resolve(path);
-		} else {
-			convPath = toDir.resolve(serverType[0]).resolve(path);
-		}
+		convPath = tempDir.resolve(serverType).resolve(path);
 		String[] str = convPath.toString().split("\\\\|\\/");
 		Path basePath = Paths.get(str[0]);
 		for(int i = 1; i < str.length; i++) {
 			basePath = basePath.resolve(str[i]);
-			Files.createDirectories(basePath);
+			try {
+				Files.createDirectories(basePath);
+			} catch (IOException e) {
+				System.out.println("error has occured at createDirectories : " + basePath.toFile().getAbsolutePath());
+				throw e;
+			}
 		}
 		return convPath;
 	}
@@ -149,39 +143,31 @@ public class FileTransfer {
 	 * @param files
 	 * @throws IOException
 	 */
-	public void startZip(Path zipPath) throws IOException {
-    	try {
-			ZipOutputStream out = new ZipOutputStream(new FileOutputStream("WebContent\\out.zip"));
-			File[] files = zipPath.toFile().listFiles();
-			createZip(files, out);
-			out.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("error has occured at createZip! at FileXXputStream! " + e);
-		}
+	private void startZip(Path zipPath) throws IOException {
+		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipDir.toString()));
+		File[] files = zipPath.toFile().listFiles();
+		createZip(files, out);
+		out.close();
     }
 
 	private void createZip(File[] files, ZipOutputStream out) throws IOException {
-		try {
-			for(File file : files) {
-				if(!file.exists()) {
-					continue;
-				}
-				if(file.isDirectory()) {
-					Path subFolder = file.toPath();
-					if(subFolder.toFile().listFiles().length != 0) {
-						createZip(subFolder.toFile().listFiles(), out);
-					}
-					continue;
-				}
-				BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
-				out.putNextEntry(new ZipEntry(getRelative(toDir, file.toPath())));
-				while ((len = in.read(buffer)) > 0) {
-		            out.write(buffer, 0, len);
-		        }
-		        in.close();
+		for(File file : files) {
+			if(!file.exists()) {
+				continue;
 			}
-		} catch (FileNotFoundException e) {
-			System.out.println("error has occured at createZip! at FileXXputStream! " + e);
+			if(file.isDirectory()) {
+				Path subFolder = file.toPath();
+				if(subFolder.toFile().listFiles().length != 0) {
+					createZip(subFolder.toFile().listFiles(), out);
+				}
+				continue;
+			}
+			BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+			out.putNextEntry(new ZipEntry(getRelative(tempDir, file.toPath())));
+			while ((len = in.read(buffer)) > 0) {
+	            out.write(buffer, 0, len);
+	        }
+	        in.close();
 		}
 	}
 

@@ -11,6 +11,8 @@ public class App {
 
     	FileTransfer ft = new FileTransfer();
 
+    	ft.deleteDir(Paths.get("WebContent\\CUlogs.zip"));
+
     	Path cLogsDir = Paths.get(".\\logs");
     	ft.collectLogs(cLogsDir, FileTransfer.CONTROLLER);
 
@@ -18,7 +20,7 @@ public class App {
 //    	ft.collectLogs(eLogsDir, FileTransfer.EXECUTOR);
 
     	Path dbDir = Paths.get(".\\updater.db");
-    	ft.collectLogs(dbDir);
+    	ft.collectLogs(dbDir, FileTransfer.CONTROLLER);
 
     	ft.createZip();
 
