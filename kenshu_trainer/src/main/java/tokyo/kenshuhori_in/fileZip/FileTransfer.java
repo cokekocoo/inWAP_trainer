@@ -1,4 +1,4 @@
-package tokyo.kenshuhori_in.file;
+package tokyo.kenshuhori_in.fileZip;
 
 import java.io.BufferedInputStream;
 import java.io.File;

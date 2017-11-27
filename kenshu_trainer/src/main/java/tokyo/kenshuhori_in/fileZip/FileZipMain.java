@@ -1,4 +1,4 @@
-package tokyo.kenshuhori_in.file;
+package tokyo.kenshuhori_in.fileZip;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 
 import tokyo.kenshuhori_in.SubMainInterface;
 
-public class FileMain implements SubMainInterface {
+public class FileZipMain implements SubMainInterface {
 
 	/**
 	 *
