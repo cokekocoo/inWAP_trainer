@@ -10,6 +10,7 @@ public class FileZipMain implements SubMainInterface {
 
 	/**
 	 *
+	 * @throws IOException
 	 * @Override
 	 */
 	public void execute() throws IOException {
