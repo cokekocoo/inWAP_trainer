@@ -1,4 +1,4 @@
-package tokyo.kenshuhori_in.netty4Educate;
+package tokyo.kenshuhori_in.netty3Educate;
 
 public class UserInfo {
 	private long id;
