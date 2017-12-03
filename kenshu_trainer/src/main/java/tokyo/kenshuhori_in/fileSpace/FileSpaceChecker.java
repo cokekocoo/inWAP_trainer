@@ -6,7 +6,10 @@ public class FileSpaceChecker {
 
 	public void checkSpace() {
 
-		String driveC = "C:\\";
+		//forWindows
+		String driveC = "C¥¥:";
+		//forLinux
+		String linuxRoot = "/";
 		File file = new File(driveC);
 
 		//総容量
