@@ -7,10 +7,8 @@ import tokyo.kenshuhori_in.SubMainInterface;
 
 public class IpAddressCheckerMain implements SubMainInterface {
 
-	private String[] args;
-
-	public IpAddressCheckerMain (String[] args) {
-		this.args = args;
+	public IpAddressCheckerMain () {
+		super();
 	}
 
 	public void execute() {
