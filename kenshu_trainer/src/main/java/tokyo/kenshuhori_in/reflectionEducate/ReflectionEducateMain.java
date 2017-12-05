@@ -6,7 +6,7 @@ import tokyo.kenshuhori_in.SubMainInterface;
 
 public class ReflectionEducateMain implements SubMainInterface {
 
-	String strClass = "ReflectionTest";
+	String strClass = "tokyo.kenshuhori_in.reflectionEducate.ReflectionTest";
 	String strMethod1 = "setMyName";
 	String strMethod2 = "showMyName";
 
