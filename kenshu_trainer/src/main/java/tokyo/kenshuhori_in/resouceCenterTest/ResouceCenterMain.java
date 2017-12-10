@@ -37,7 +37,7 @@ public class ResouceCenterMain implements SubMainInterface {
         REMOTELIST.add(new VersionDto("CIU12000", true));
         REMOTELIST.add(new VersionDto("CIU12100", true));
         REMOTELIST.add(new VersionDto("CIU12200", true));
-        REMOTELIST.add(new VersionDto("CIU12300", true));
+//        REMOTELIST.add(new VersionDto("CIU12300", true));
 	}
 
 	// TODO:JUnitのテストコードを書いてパターンを網羅しよう
@@ -58,8 +58,7 @@ public class ResouceCenterMain implements SubMainInterface {
                 .orElse(self);
         System.out.println("local : " + local.toString());
 
-        List<VersionDto> remoteCiuList = REMOTELIST;
-
+        List<VersionDto> remoteCiuList = REMOTELIST; 
         VersionDto latestInRemote = remoteCiuList.stream()
         		.sorted( cmp )
         		.findFirst()

@@ -19,9 +19,11 @@ public class VersionDto {
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("{version : " + version + "}");
+		sb.append("{");
+		sb.append("version : " + version);
 		sb.append(", ");
-		sb.append("{isRemote : " + isRemote + "}");
+		sb.append("isRemote : " + isRemote);
+		sb.append("}");
 		return sb.toString();
 	}
 
