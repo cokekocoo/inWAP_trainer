@@ -3,5 +3,8 @@ package tokyo.kenshuhori_in;
 import java.io.IOException;
 
 public interface SubMainInterface {
-	abstract void execute() throws IOException;
+	static void main(String[] args) {
+		//execute();
+	} 
+	abstract void execute();
 }

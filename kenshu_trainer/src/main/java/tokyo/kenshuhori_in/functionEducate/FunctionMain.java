@@ -21,7 +21,7 @@ public class FunctionMain implements SubMainInterface {
 	}
 
 	@Override
-	public void execute() throws IOException {
+	public void execute() {
 //		DoubleUnaryOperator sum = (a) -> answer += a;
 //		Consumer<Double> log = (a) -> System.out.println(a);
 
