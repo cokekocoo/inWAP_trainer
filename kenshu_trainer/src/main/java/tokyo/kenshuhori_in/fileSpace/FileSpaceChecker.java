@@ -7,7 +7,7 @@ public class FileSpaceChecker {
 	public void checkSpace() {
 
 		//forWindows
-		String driveC = "C¥¥:";
+		String driveC = "C:\\";
 		//forLinux
 		String linuxRoot = "/";
 		File file = new File(driveC);

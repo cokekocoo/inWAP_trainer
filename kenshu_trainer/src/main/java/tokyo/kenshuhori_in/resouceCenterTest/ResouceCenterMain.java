@@ -1,11 +1,8 @@
 package tokyo.kenshuhori_in.resouceCenterTest;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import tokyo.kenshuhori_in.SubMainInterface;
 
@@ -37,7 +34,7 @@ public class ResouceCenterMain implements SubMainInterface {
         REMOTELIST.add(new VersionDto("CIU12000", true));
         REMOTELIST.add(new VersionDto("CIU12100", true));
         REMOTELIST.add(new VersionDto("CIU12200", true));
-//        REMOTELIST.add(new VersionDto("CIU12300", true));
+        REMOTELIST.add(new VersionDto("CIU12300", true));
 	}
 
 	// TODO:JUnitのテストコードを書いてパターンを網羅しよう
@@ -45,29 +42,40 @@ public class ResouceCenterMain implements SubMainInterface {
 
         Comparator<VersionDto> cmp = (i, j) -> j.getVersion().compareTo( i.getVersion() );
 
-        VersionDto self = new VersionDto("CIU12200", false);
-        List<VersionDto> versionsInDb = VERSIONSINDB;
+        VersionDto remote = new VersionDto("CIU12300", true);
+        VersionDto local = new VersionDto("CIU12300", false);
 
-        File[] localCiu = new File(".").listFiles(((dir, name) -> name.matches(CIU_PRODUCT_REGEX)));
-        List<String> updatePackage = Stream.of(localCiu).map( f -> f.getName() ).collect(Collectors.toList());
+        if(cmp.compare(remote, local) < 0) {
+        	System.out.println("成功");
+        	return remote;
+        } else {
+        	System.out.println("失敗");
+        	return local;
+        }
 
-        VersionDto local = versionsInDb.stream()
-                .filter(dto -> updatePackage.contains(dto.getVersion()))
-                .sorted( cmp )
-                .findFirst()
-                .orElse(self);
-        System.out.println("local : " + local.toString());
-
-        List<VersionDto> remoteCiuList = REMOTELIST; 
-        VersionDto latestInRemote = remoteCiuList.stream()
-        		.sorted( cmp )
-        		.findFirst()
-        		.get();
-
-        return remoteCiuList.stream()
-                .filter( remote -> cmp.compare(remote, local) < 0 )
-                .sorted( cmp )
-                .findFirst()
-                .orElse(local);
+//        VersionDto self = new VersionDto("CIU12200", false);
+//
+//        File[] localCiu = new File(".").listFiles(((dir, name) -> name.matches(CIU_PRODUCT_REGEX)));
+//        List<String> updatePackage = Stream.of(localCiu).map( f -> f.getName() ).collect(Collectors.toList());
+//
+//        String latestInPackage = updatePackage.stream()
+//        		.sorted(Comparator.reverseOrder())
+//        		.findFirst()
+//        		.get();
+//
+//        List<VersionDto> remoteCiuList = REMOTELIST;
+//        VersionDto latestVersion = remoteCiuList.stream()
+//        		.sorted(cmp)
+//        		.findFirst()
+//        		.filter(dto -> !latestInPackage.equals(dto.getVersion()))
+//        		.orElse(self);
+//
+//        VersionDto a = remoteCiuList.stream()
+//                .filter( remote -> cmp.compare(remote, latestVersion) < 0 )
+//                .sorted( cmp  )
+//                .findFirst()
+//                .orElse(latestVersion);
+//
+//        return latestVersion;
     }
 }

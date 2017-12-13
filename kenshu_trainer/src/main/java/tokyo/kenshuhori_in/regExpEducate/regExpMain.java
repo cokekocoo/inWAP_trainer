@@ -1,5 +1,6 @@
 package tokyo.kenshuhori_in.regExpEducate;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -10,7 +11,8 @@ import tokyo.kenshuhori_in.SubMainInterface;
 public class regExpMain implements SubMainInterface {
 
 	public static void main(String[] args) {
-		new regExpMain().execute();
+		regExpMain.check("jdbc:oracle:thin:@192.168.56.1:1521:cp07");
+//		new regExpMain().execute();
 	}
 
 	private List<VersionStruc> versionList;
@@ -99,5 +101,36 @@ public class regExpMain implements SubMainInterface {
 			oraVersionNum = m.group();
 			System.out.println("oracle_version : " + oraVersionNum);
 		}
+	}
+
+	public static boolean check(String jdbc_url) {
+
+		boolean result = false;
+		try {
+			InetAddress localHost = InetAddress.getLocalHost();
+			String localIpAddress = localHost.getHostAddress();
+			String localHostName = localHost.getHostName();
+
+			String jdbcIp = extractJdbcIp(jdbc_url);
+
+			if (jdbcIp.equals(localIpAddress) || jdbcIp.equals(localHostName)) {
+				result = true;
+			} else {
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	private static String extractJdbcIp(String href) throws Exception {
+		final String JDBC_REGEX ="jdbc:oracle:thin:@(.*):(.*):(.*)";
+        Pattern p = Pattern.compile(JDBC_REGEX);
+        Matcher m = p.matcher(href);
+        if( m.find()){
+            return m.group(1);
+        } else {
+        	throw new Exception("Cannot extract IP from JDBC_URL");
+        }
 	}
 }
