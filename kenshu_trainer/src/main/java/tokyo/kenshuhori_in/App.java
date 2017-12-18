@@ -1,19 +1,19 @@
 package tokyo.kenshuhori_in;
 
+import java.io.File;
 import java.io.IOException;
-
-import tokyo.kenshuhori_in.functionEducate.FunctionMain;
 
 public class App {
     public static void main( String[] args ) throws IOException {
 
-//    	new ReflectionEducateMain().execute();
-//    	new IpAddressCheckerMain().execute();
-    	new FunctionMain().execute();
-
-//    	Double ans = 0.0;
-//    	Double ans2 = ans + 1.0 + 2.4;
-//    	System.out.println("ans : " + ans2);
-
+    	String sep = System.lineSeparator();
+    	String path = "X:\\個人用\\hori_ke";
+    	File file = new File(path.replace("\\\\", sep));
+    	if (file.exists()) {
+    		System.out.println("true : " + file.getName());
+    	}
+    	else {
+    		System.out.println("false : " + file.getName());
+    	}
     }
 }

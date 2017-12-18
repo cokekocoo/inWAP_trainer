@@ -8,9 +8,10 @@ public class FileSpaceChecker {
 
 		//forWindows
 		String driveC = "C:\\";
+		String driveX = "X:\\個人用";
 		//forLinux
 		String linuxRoot = "/";
-		File file = new File(driveC);
+		File file = new File(driveX);
 
 		//総容量
 		long total = file.getTotalSpace();
