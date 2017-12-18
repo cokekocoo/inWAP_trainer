@@ -8,7 +8,7 @@ public class App {
 
     	String sep = System.lineSeparator();
     	String path = "X:\\個人用\\hori_ke";
-    	File file = new File(path.replace("\\\\", sep));
+    	File file = new File(path);
     	if (file.exists()) {
     		System.out.println("true : " + file.getName());
     	}
