@@ -56,7 +56,7 @@ public class SmbEducatorMain implements SubMainInterface {
     	System.out.println("①" + expSmbDir);
     	expSmbDir = expSmbDir.startsWith("//") ? expSmbDir : "//" + expSmbDir;
     	System.out.println("①" + expSmbDir);
-    	expSmbDir = expSmbDir.replaceAll("\\", "/");
+    	expSmbDir = expSmbDir.replace("\\", "/");
     	System.out.println("①" + expSmbDir);
     	//末尾に「/」を付与
     	String SEP = File.separator;
