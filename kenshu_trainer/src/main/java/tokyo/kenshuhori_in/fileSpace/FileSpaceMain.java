@@ -8,8 +8,14 @@ public class FileSpaceMain implements SubMainInterface {
 		new FileSpaceMain().execute();
 	}
 
+	//forWindows
+	String driveC = "C:\\";
+	String driveX = "X:\\個人用";
+	//forLinux
+	String linuxRoot = "/";
+
 	@Override
 	public void execute() {
-		new FileSpaceChecker().checkSpace();
+		new FileSpaceChecker().checkSpace(driveX);
 	}
 }

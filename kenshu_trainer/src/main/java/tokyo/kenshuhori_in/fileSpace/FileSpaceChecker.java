@@ -4,14 +4,8 @@ import java.io.File;
 
 public class FileSpaceChecker {
 
-	public void checkSpace() {
-
-		//forWindows
-		String driveC = "C:\\";
-		String driveX = "X:\\個人用";
-		//forLinux
-		String linuxRoot = "/";
-		File file = new File(driveX);
+	public void checkSpace(String targetPath) {
+		File file = new File(targetPath);
 
 		//総容量
 		long total = file.getTotalSpace();
