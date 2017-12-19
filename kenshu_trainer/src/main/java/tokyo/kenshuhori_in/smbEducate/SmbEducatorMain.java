@@ -18,7 +18,7 @@ public class SmbEducatorMain implements SubMainInterface {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("EXP_SMB_USER", "pe");
 		map.put("EXP_SMB_PASS", "pe");
-		map.put("EXP_SMB_DIR", "pe");
+		map.put("EXP_SMB_DIR", "nas177/share/個人用/hori_ke/");
 		validDbBackupSmbDirectory(map);
 	}
 
