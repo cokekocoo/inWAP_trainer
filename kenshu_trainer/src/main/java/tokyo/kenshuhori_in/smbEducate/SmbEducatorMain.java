@@ -1,6 +1,5 @@
 package tokyo.kenshuhori_in.smbEducate;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,21 +11,26 @@ import tokyo.kenshuhori_in.SubMainInterface;
 public class SmbEducatorMain implements SubMainInterface {
 
 	String smbPath = "smb://pe:pe@nas177/share/個人用/hori_ke/";
+	String smbPath205 = "smb://cjkmain:cjkmain05@192.168.182.209/worksap/";
+	String smbPath209 = "smb://cjkmain:cjkmain05@//192.168.182.209/worksap/";
+	String smbPath70T = "smb://Administrator:cjkmain05@172.16.164.225/";
 
 	public static void main(String[] args) {
-		new SmbEducatorMain().execute();
+//		new SmbEducatorMain().execute();
+
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("EXP_SMB_USER", "pe");
 		map.put("EXP_SMB_PASS", "pe");
-		map.put("EXP_SMB_DIR", "nas177/share/個人用/hori_ke/");
-		validDbBackupSmbDirectory(map);
+		map.put("EXP_SMB_DIR", "192.168.182.209\\worksap");
+		boolean result = validDbBackupSmbDirectory(map);
+		System.out.println("result : " + result);
 	}
 
 	@Override
 	public void execute() {
 
 		try {
-			SmbFile smbFile = new SmbFile(smbPath);
+			SmbFile smbFile = new SmbFile(smbPath209);
 			if (smbFile.exists()) {
 				for (SmbFile oneFile : smbFile.listFiles()) {
 					System.out.println("★" + oneFile.getPath());
@@ -49,23 +53,12 @@ public class SmbEducatorMain implements SubMainInterface {
 	public static boolean validDbBackupSmbDirectory(Map<String, String> data) {
     	String expSmbUser = data.get("EXP_SMB_USER");
     	String expSmbPass = data.get("EXP_SMB_PASS");
-    	String expSmbDir = data.get("EXP_SMB_DIR");
-    	//頭の「\\」を「//」へ変換
-    	System.out.println("①" + expSmbDir);
-    	expSmbDir = expSmbDir.startsWith("\\\\") ? expSmbDir.replaceFirst("\\\\", "//") : expSmbDir;
-    	System.out.println("①" + expSmbDir);
-    	expSmbDir = expSmbDir.startsWith("//") ? expSmbDir : "//" + expSmbDir;
-    	System.out.println("①" + expSmbDir);
-    	expSmbDir = expSmbDir.replace("\\", "/");
-    	System.out.println("①" + expSmbDir);
-    	//末尾に「/」を付与
-    	String SEP = File.separator;
-    	expSmbDir = expSmbDir.endsWith(SEP) ? expSmbDir : expSmbDir + "/";
-    	System.out.println("①" + expSmbDir);
-
-    	StringBuilder sb = new StringBuilder();
-    	sb.append("smb://").append(expSmbUser).append(":").append(expSmbPass).append("@").append(expSmbDir);
-    	String smbDir = sb.toString();
+    	String expSmbDir = SmbUtils.convert(data.get("EXP_SMB_DIR"));
+    	String smbDir = SmbUtils.buildUrl(expSmbDir, expSmbUser, expSmbPass);
     	return SmbUtils.exists(smbDir);
+	}
+
+	private static boolean isOk(String smbDir) {
+		return smbDir.equals("//nas177/share/個人用/hori_ke/");
 	}
 }
