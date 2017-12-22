@@ -21,7 +21,7 @@ public class SmbEducatorMain implements SubMainInterface {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("EXP_SMB_USER", "pe");
 		map.put("EXP_SMB_PASS", "pe");
-		map.put("EXP_SMB_DIR", "192.168.182.209\\worksap");
+		map.put("EXP_SMB_DIR", "nas177/share/個人用/hori_ke");
 		boolean result = validDbBackupSmbDirectory(map);
 		System.out.println("result : " + result);
 	}
@@ -55,6 +55,8 @@ public class SmbEducatorMain implements SubMainInterface {
     	String expSmbPass = data.get("EXP_SMB_PASS");
     	String expSmbDir = SmbUtils.convert(data.get("EXP_SMB_DIR"));
     	String smbDir = SmbUtils.buildUrl(expSmbDir, expSmbUser, expSmbPass);
+//    	String file = new File(smbDir).getAbsoluteFile().toPath().getRoot().toString();
+//    	System.out.println("aiueo : " + file);
     	return SmbUtils.exists(smbDir);
 	}
 

@@ -7,6 +7,11 @@ public class FileSpaceChecker {
 	public void checkSpace(String targetPath) {
 		File file = new File(targetPath);
 
+		//ルート
+		File root = file.getAbsoluteFile().toPath().getRoot().toFile();
+		String strRoot = file.getAbsoluteFile().toPath().getRoot().toString();
+		System.out.println("root : " + strRoot);
+
 		//総容量
 		long total = file.getTotalSpace();
 		System.out.println("total : " + total);
