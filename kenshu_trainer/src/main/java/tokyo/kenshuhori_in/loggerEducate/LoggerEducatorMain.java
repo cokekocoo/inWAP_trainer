@@ -31,6 +31,7 @@ public class LoggerEducatorMain implements SubMainInterface {
 	public void execute() {
     	setUp();
 		outputLogger();
+		System.out.println("⑬size : " + byteArrayOutputStream.size());
 	}
 
 	public void setUp() {
@@ -55,28 +56,29 @@ public class LoggerEducatorMain implements SubMainInterface {
 	}
 
 	private void outputLogger() {
-		logger.log(Level.OFF, "OFF 無");
+		logger.log(Level.OFF, "OFFです");
 		System.out.println("①size : " + byteArrayOutputStream.size());
-		logger.log(Level.ALL, "ALL 全");
+		logger.log(Level.ALL, "ALLです");
 		System.out.println("②size : " + byteArrayOutputStream.size());
-		logger.log(Level.FINEST, "FINEST 最小");
+		logger.log(Level.FINEST, "FINESTです");
 		System.out.println("③size : " + byteArrayOutputStream.size());
-		logger.log(Level.FINER, "FINER 小小");
+		logger.log(Level.FINER, "FINERです");
 		System.out.println("④size : " + byteArrayOutputStream.size());
-		logger.log(Level.FINE, "FINE 小");
+		logger.log(Level.FINE, "FINEです");
 		System.out.println("⑤size : " + byteArrayOutputStream.size());
-		logger.log(Level.CONFIG, "CONFIG 中");
+		logger.log(Level.CONFIG, "CONFIGです");
 		System.out.println("⑥size : " + byteArrayOutputStream.size());
-		logger.log(Level.INFO, "INFO 中中");
+		logger.log(Level.INFO, "INFOです");
 		System.out.println("⑦size : " + byteArrayOutputStream.size());
-		logger.log(Level.WARNING, "WARNING 大");
+		logger.log(Level.WARNING, "WARNINGです");
 		System.out.println("⑧size : " + byteArrayOutputStream.size());
-		logger.log(Level.SEVERE, "SEVERE 最大");
+		logger.log(Level.SEVERE, "SEVEREです");
 		System.out.println("⑨size : " + byteArrayOutputStream.size());
+		streamHandler.flush();
 
 		try {
 			System.out.println("⑩size : " + byteArrayOutputStream.size());
-			throw new Exception();
+			throw new IOException();
 		} catch (Exception e) {
 			System.out.println("⑪size : " + byteArrayOutputStream.size());
 			logger.log(Level.SEVERE, "", e);
