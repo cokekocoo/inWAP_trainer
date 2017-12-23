@@ -57,6 +57,7 @@ public class SmbEducatorMain implements SubMainInterface {
     	String smbDir = SmbUtils.buildUrl(expSmbDir, expSmbUser, expSmbPass);
 //    	String file = new File(smbDir).getAbsoluteFile().toPath().getRoot().toString();
 //    	System.out.println("aiueo : " + file);
+    	SmbUtils.root(smbDir);
     	return SmbUtils.exists(smbDir);
 	}
 

@@ -69,4 +69,14 @@ public class SmbUtils {
 		}
 		return freeSize;
 	}
+
+	public static void root(String url) {
+		try {
+			SmbFile smbFile = new SmbFile(url);
+			System.out.println("url : " + smbFile.getURL());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+	}
 }

@@ -1,11 +1,11 @@
-package tokyo.kenshuhori_in.fileSpace;
+package tokyo.kenshuhori_in.fileEducate;
 
 import tokyo.kenshuhori_in.SubMainInterface;
 
-public class FileSpaceMain implements SubMainInterface {
+public class FileEducateMain implements SubMainInterface {
 
 	public static void main(String[] args) {
-		new FileSpaceMain().execute();
+		new FileEducateMain().execute();
 	}
 
 	//forWindows
