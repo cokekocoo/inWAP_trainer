@@ -14,7 +14,7 @@ public class ReflectionEducateMain implements SubMainInterface {
 	public static void main(String[] args) {
 		new ReflectionEducateMain().execute();
 	}
-	
+
 	public ReflectionEducateMain() {
 		super();
 		System.out.println("コンストラクタ発動");
@@ -22,7 +22,7 @@ public class ReflectionEducateMain implements SubMainInterface {
 	static {
 		System.out.println("static initializer発動");
 	}
-	
+
 	@Override
 	public void execute() {
 		try {
@@ -37,7 +37,7 @@ public class ReflectionEducateMain implements SubMainInterface {
 			//メソッド(showMyName)の取得と実行
 			method = c.getMethod(strMethod2);
 			method.invoke(myObj);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
