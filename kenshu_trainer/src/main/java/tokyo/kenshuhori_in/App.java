@@ -1,25 +1,41 @@
 package tokyo.kenshuhori_in;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class App {
     public static void main( String[] args ) throws IOException {
 
-    	File file = new File("C:\\Users\\works\\Desktop\\趣味ファイル\\DBコピーツール\\Db_copy\\2.db_copy_main\\CJK\\par");
-    	for(File f : file.listFiles()) {
-    		System.out.println(f.getName());
-    	}
+    	Map<String, Double> prodDBusedSpaceMap = new HashMap<String, Double>();
+    	prodDBusedSpaceMap.put("USR_JINJI", 100.0);
+    	prodDBusedSpaceMap.put("USR_KYUYO", 200.0);
+    	prodDBusedSpaceMap.put("USR_WORK", 300.0);
+    	prodDBusedSpaceMap.put("USR_INDEX01", 400.0);
+    	prodDBusedSpaceMap.put("USR_INDEX02", 500.0);
+    	prodDBusedSpaceMap.put("SYSTEM", 600.0);
 
-    	Map<String, Integer> map = new HashMap<String, Integer>();
-    	for(int i = 0; i<3; i++) {
-    		map.put("hori", 10 + map.getOrDefault("hori", 0));
-    	}
-    	map.put("katada", 10);
+		Map<String, Double> testDBtotalSpaceMap = new HashMap<String, Double>();
+		testDBtotalSpaceMap.put("USR_JINJI", 300.0);
+		testDBtotalSpaceMap.put("USR_KYUYO", 300.0);
+		testDBtotalSpaceMap.put("USR_WORK", 300.0);
+		testDBtotalSpaceMap.put("USR_INDEX01", 300.0);
+		testDBtotalSpaceMap.put("USR_INDEX02", 300.0);
+		testDBtotalSpaceMap.put("TEMP", 600.0);
 
-    	System.out.println(map.size());
+//		prodDBusedSpaceMap.entrySet().stream()
+//			.forEach(record -> System.out.println(testDBtotalSpaceMap.get(record.getKey()) + " / " + record.getKey() + " : " + record.getValue()));
+//			.filter(record -> testDBtotalSpaceMap.get(record.getKey()) > record.getValue())
+//			.forEach(System.out::println);
+//			.collect(Collectors.toList());
 
+		List<Entry<String, Double>> result = prodDBusedSpaceMap.entrySet().stream()
+			.filter(record -> testDBtotalSpaceMap.get(record.getKey()) != null && testDBtotalSpaceMap.get(record.getKey()) < record.getValue())
+			.collect(Collectors.toList());
+
+		System.out.println(result.toString());
     }
 }

@@ -38,4 +38,5 @@ public class AccumulatorEducator implements SubMainInterface {
 		return acc.get();
 	}
 
+
 }
