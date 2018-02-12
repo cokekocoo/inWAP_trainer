@@ -24,14 +24,14 @@ public class TruncateEducatorForDBCopy implements SubMainInterface {
 
 	@Override
 	public void execute() {
-		executeCom();
+//		executeCom();
 		executeGym();
 	}
 
 	public void executeCom() {
 		tableList = new JdbcEducator().createComTables();
 		System.out.println("tableList1 : " + tableList.size());
-		File file = new File("dbcopy_ini");
+		File file = new File("dbcopy_ini/CJK");
 		if (file.exists()) {
 			for (File one : file.listFiles()) {
 				executeFile(one);
@@ -44,7 +44,7 @@ public class TruncateEducatorForDBCopy implements SubMainInterface {
 	public void executeGym() {
 		tableList = new JdbcEducator().createGymTables();
 		System.out.println("tableList1 : " + tableList.size());
-		File file = new File("dbcopy_ini");
+		File file = new File("dbcopy_ini/CJK");
 		if (file.exists()) {
 			for (File one : file.listFiles()) {
 				executeFile(one);
