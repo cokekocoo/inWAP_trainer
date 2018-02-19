@@ -13,9 +13,12 @@ import tokyo.kenshuhori_in.SubMainInterface;
 public class JdbcEducator implements SubMainInterface {
 
 	List<String> tableList;
+	String url = "jdbc:oracle:thin:@192.168.182.158:1521:cp06";
+	String user = "jinji";
+	String pass = "jinji";
 
 	public static void main(String[] args) {
-		new JdbcEducator().execute();
+		new JdbcEducator(args[0], args[1], args[2]).execute();
 	}
 
 	@Override
@@ -25,8 +28,11 @@ public class JdbcEducator implements SubMainInterface {
 		System.out.println(tableList.size());
 	}
 
-	public JdbcEducator() {
+	public JdbcEducator(String url, String user, String pass) {
 		tableList = new ArrayList<String>();
+		this.url = url;
+		this.user = user;
+		this.pass = pass;
 	}
 
 	public List<String> createComTables() {
@@ -42,9 +48,6 @@ public class JdbcEducator implements SubMainInterface {
 
 	public void buildComSchemaList() {
 		try {
-			String url = "jdbc:oracle:thin:@192.168.182.158:1521:cp06";
-			String user = "companycom";
-			String pass = "companycom";
 			Connection conn = DriverManager.getConnection(url, user, pass);
 			Statement st = conn.createStatement();
 			String sql = "select * from USER_TABLES order by TABLE_NAME";
@@ -61,9 +64,6 @@ public class JdbcEducator implements SubMainInterface {
 
 	public void buildGymSchemaList() {
 		try {
-			String url = "jdbc:oracle:thin:@192.168.182.158:1521:cp06";
-			String user = "jinji";
-			String pass = "jinji";
 			Connection conn = DriverManager.getConnection(url, user, pass);
 			Statement st = conn.createStatement();
 			String sql = "select * from USER_TABLES order by TABLE_NAME";
@@ -80,12 +80,9 @@ public class JdbcEducator implements SubMainInterface {
 
 	public void truncateComTable(List<String> tableList) {
 		try {
-			String url = "jdbc:oracle:thin:@192.168.182.158:1521:cp06";
-			String user = "companycom";
-			String pass = "companycom";
 			Connection conn = DriverManager.getConnection(url, user, pass);
 			Statement st = conn.createStatement();
-			String sql = "TRUNCATE TABLE %s";
+			String sql = "DROP TABLE %s";
 			int result = 0;
 			for (String table : tableList) {
 				String tableName = String.format(sql, table);
@@ -101,12 +98,9 @@ public class JdbcEducator implements SubMainInterface {
 
 	public void truncateGymTable(List<String> tableList) {
 		try {
-			String url = "jdbc:oracle:thin:@192.168.182.158:1521:cp06";
-			String user = "jinji";
-			String pass = "jinji";
 			Connection conn = DriverManager.getConnection(url, user, pass);
 			Statement st = conn.createStatement();
-			String sql = "TRUNCATE TABLE %s";
+			String sql = "DROP TABLE %s";
 			int result = 0;
 			for (String table : tableList) {
 				String tableName = String.format(sql, table);

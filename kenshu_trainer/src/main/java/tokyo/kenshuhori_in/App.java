@@ -1,11 +1,9 @@
 package tokyo.kenshuhori_in;
 
-import java.io.IOException;
-
-import tokyo.kenshuhori_in.jdbcEducate.JdbcEducator;
+import tokyo.kenshuhori_in.jdbcEducate.TruncateEducatorForDBCopy;
 
 public class App {
-    public static void main( String[] args ) throws IOException {
-    	new JdbcEducator().execute();
+    public static void main( String[] args ) {
+    	new TruncateEducatorForDBCopy(args).execute();
     }
 }

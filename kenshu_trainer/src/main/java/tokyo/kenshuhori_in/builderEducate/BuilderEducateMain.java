@@ -6,7 +6,7 @@ public class BuilderEducateMain implements SubMainInterface {
 	public static void main(String[] args) {
 		new BuilderEducateMain().execute();
 	}
-	
+
 	public BuilderEducateMain() {
 		super();
 	}
@@ -15,5 +15,5 @@ public class BuilderEducateMain implements SubMainInterface {
 	public void execute() {
 		new People().execute();
 	}
-	
+
 }

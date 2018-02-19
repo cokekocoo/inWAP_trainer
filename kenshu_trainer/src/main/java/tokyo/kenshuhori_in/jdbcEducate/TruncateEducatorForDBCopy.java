@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,13 +14,21 @@ public class TruncateEducatorForDBCopy implements SubMainInterface {
 
 	List<String> tableList;
 	List<String> fileTableList;
+	String url;
+	String user;
+	String pass;
+	String product;
 
 	public static void main(String[] args) {
-		new TruncateEducatorForDBCopy().execute();
+		new TruncateEducatorForDBCopy(args).execute();
 	}
 
-	public TruncateEducatorForDBCopy() {
+	public TruncateEducatorForDBCopy(String[] args) {
 		fileTableList = new ArrayList<String>();
+		url = args[0];
+		user = args[1];
+		pass = args[2];
+		product = args[3];
 	}
 
 	@Override
@@ -29,29 +38,29 @@ public class TruncateEducatorForDBCopy implements SubMainInterface {
 	}
 
 	public void executeCom() {
-		tableList = new JdbcEducator().createComTables();
+		tableList = new JdbcEducator(url, user, pass).createComTables();
 		System.out.println("tableList1 : " + tableList.size());
-		File file = new File("dbcopy_ini/CJK");
+		File file = Paths.get("dbcopy_ini").resolve(product).toFile();
 		if (file.exists()) {
 			for (File one : file.listFiles()) {
 				executeFile(one);
 			}
 		}
 		System.out.println("tableList2 : " + tableList.size());
-		new JdbcEducator().truncateComTable(tableList);
+		new JdbcEducator(url, user, pass).truncateComTable(tableList);
 	}
 
 	public void executeGym() {
-		tableList = new JdbcEducator().createGymTables();
+		tableList = new JdbcEducator(url, user, pass).createGymTables();
 		System.out.println("tableList1 : " + tableList.size());
-		File file = new File("dbcopy_ini/CJK");
+		File file = Paths.get("dbcopy_ini").resolve(product).toFile();
 		if (file.exists()) {
 			for (File one : file.listFiles()) {
 				executeFile(one);
 			}
 		}
 		System.out.println("tableList2 : " + tableList.size());
-		new JdbcEducator().truncateGymTable(tableList);
+		new JdbcEducator(url, user, pass).truncateGymTable(tableList);
 	}
 
 	public void executeFile(File file) {
