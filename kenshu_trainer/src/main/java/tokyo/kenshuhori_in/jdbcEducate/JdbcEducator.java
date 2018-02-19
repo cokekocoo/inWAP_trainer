@@ -16,6 +16,8 @@ public class JdbcEducator implements SubMainInterface {
 	String url = "jdbc:oracle:thin:@192.168.182.158:1521:cp06";
 	String user = "jinji";
 	String pass = "jinji";
+	String comUser = "companycom";
+	String comPass = "companycom";
 
 	public static void main(String[] args) {
 		new JdbcEducator(args[0], args[1], args[2]).execute();
@@ -82,7 +84,7 @@ public class JdbcEducator implements SubMainInterface {
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
 			Statement st = conn.createStatement();
-			String sql = "DROP TABLE %s";
+			String sql = "TRUNCATE TABLE %s";
 			int result = 0;
 			for (String table : tableList) {
 				String tableName = String.format(sql, table);

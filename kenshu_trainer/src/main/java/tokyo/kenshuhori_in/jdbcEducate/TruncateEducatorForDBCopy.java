@@ -33,8 +33,10 @@ public class TruncateEducatorForDBCopy implements SubMainInterface {
 
 	@Override
 	public void execute() {
-//		executeCom();
 		executeGym();
+		if (product.equals("CJK")) {
+			executeCom();
+		}
 	}
 
 	public void executeCom() {
