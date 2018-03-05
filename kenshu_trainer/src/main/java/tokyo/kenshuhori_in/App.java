@@ -11,6 +11,10 @@ import tokyo.kenshuhori_in.jdbcEducate.TruncateEducatorForDBCopy;
 public class App {
     public static void main( String[] args ) {
     	new TruncateEducatorForDBCopy(args).execute();
+//    	String QUERY_FORMAT = "SELECT MAX(VERNO) AS VERSION FROM %s.VER_KANRI WHERE (PRDCT_CD = '%s') ";
+//    	String schema = "JINJI";
+//    	String product = "CJK";
+//    	System.out.println(String.format(QUERY_FORMAT, schema, product));
     }
 
     Map<String, String> map;
